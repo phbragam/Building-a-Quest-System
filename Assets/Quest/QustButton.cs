@@ -13,9 +13,16 @@ public class QustButton : MonoBehaviour
     public Sprite waitingImage;
     public Sprite doneImage;
     public QuestEvent thisEvent;
+    public CompassController compassController;
 
     QuestEvent.EventStatus status;
-   
+
+    private void Awake()
+    {
+        buttonComponent.onClick.AddListener(ClickHandler);
+        compassController = GameObject.Find("Compass").GetComponent<CompassController>();
+    }
+
     public void Setup(QuestEvent e, GameObject scrollList)
     {
         thisEvent = e;
@@ -43,6 +50,14 @@ public class QustButton : MonoBehaviour
         {
             icon.texture = currentImage.texture;
             buttonComponent.interactable = true;
+            ClickHandler();
         }
+    }
+
+    public void ClickHandler()
+    {
+        // set compass controller to point toward the location
+        // of this event
+        compassController.target = thisEvent.location;
     }
 }

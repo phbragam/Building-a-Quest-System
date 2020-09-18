@@ -9,6 +9,9 @@ public class QuestManager : MonoBehaviour
     public Quest quest = new Quest();
     public GameObject questPrintBox;
     public GameObject buttonPrefab;
+    public GameObject victoryPopup;
+
+    QuestEvent final;
 
     public GameObject A;
     public GameObject B;
@@ -19,11 +22,11 @@ public class QuestManager : MonoBehaviour
     void Start()
     {
         //create each event
-        QuestEvent a = quest.AddQuestEvent("test1", "description 1");
-        QuestEvent b = quest.AddQuestEvent("test2", "description 2");
-        QuestEvent c = quest.AddQuestEvent("test3", "description 3");
-        QuestEvent d = quest.AddQuestEvent("test4", "description 4");
-        QuestEvent e = quest.AddQuestEvent("test5", "description 5");
+        QuestEvent a = quest.AddQuestEvent("test1", "description 1", A);
+        QuestEvent b = quest.AddQuestEvent("test2", "description 2", B);
+        QuestEvent c = quest.AddQuestEvent("test3", "description 3", C);
+        QuestEvent d = quest.AddQuestEvent("test4", "description 4", D);
+        QuestEvent e = quest.AddQuestEvent("test5", "description 5", E);
 
         // define the paths between the events - e.g. the order they must be completed
         quest.AddPath(a.GetId(), b.GetId());
@@ -45,6 +48,8 @@ public class QuestManager : MonoBehaviour
         button = CreateButton(e).GetComponent<QustButton>();
         E.GetComponent<QuestLocation>().Setup(this, e, button);
 
+        final = e;
+
         quest.PrintPath();
 
     }
@@ -63,6 +68,12 @@ public class QuestManager : MonoBehaviour
 
     public void UpdateQuestsOnCompletion(QuestEvent e)
     {
+        if (e == final)
+        {
+            victoryPopup.SetActive(true);
+            return;
+        }
+
         foreach (QuestEvent n in quest.questEvents)
         {
             // if this event is the next in order

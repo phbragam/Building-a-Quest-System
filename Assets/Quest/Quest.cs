@@ -8,9 +8,9 @@ public class Quest
 
     public Quest() { }
 
-    public QuestEvent AddQuestEvent(string n, string d)
+    public QuestEvent AddQuestEvent(string n, string d, GameObject l)
     {
-        QuestEvent questEvent = new QuestEvent(n, d);
+        QuestEvent questEvent = new QuestEvent(n, d, l);
         questEvents.Add(questEvent);
         return questEvent;
     }
